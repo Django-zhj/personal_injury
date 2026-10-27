@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山东省2026版人身损害赔偿计算器（青岛单列）</title>
+<style>
+:root{
+  --brand:#12395f; --brand-d:#0d2942; --brand-l:#e8eff6; --gold:#b8893b; --gold-l:#fdf6e8;
+  --red:#c8102e; --green:#1f7a4d; --orange:#c96a12;
+  --bg:#f4f6f9; --card:#fff; --line:#dfe4ea; --line2:#eef1f5;
+  --tx:#1c2733; --tx2:#5a6875; --tx3:#8c98a4;
+  --r:10px; --sh:0 1px 3px rgba(18,57,95,.07),0 6px 18px rgba(18,57,95,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Source Han Sans SC",sans-serif;
+  background:var(--bg);color:var(--tx);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1420px;margin:0 auto;padding:0 20px 60px}
+
+/* ===== Header ===== */
+header.top{background:linear-gradient(135deg,var(--brand-d),var(--brand) 55%,#1b5288);color:#fff;
+  padding:22px 0 0;box-shadow:0 2px 14px rgba(13,41,66,.22)}
+.top-in{max-width:1420px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:16px;
+  align-items:flex-start;justify-content:space-between}
+.tt h1{font-size:21px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+.tt .sub{font-size:12.5px;color:#b9cde0;margin-top:6px;max-width:760px}
+.badge{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:20px;
+  padding:2px 11px;font-size:11.5px;font-weight:600;letter-spacing:.3px}
+.seg{display:inline-flex;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  border-radius:9px;padding:4px;gap:4px}
+.seg button{background:none;border:0;color:#c8dcee;font-size:13px;font-weight:600;padding:8px 20px;
+  border-radius:6px;cursor:pointer;font-family:inherit;transition:.15s;white-space:nowrap}
+.seg button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.seg button:hover:not(.on){background:rgba(255,255,255,.1)}
+/* 二维码名片 */
+.qr-card{background:rgba(255,255,255,.94);border-radius:10px;padding:7px 7px 5px;text-align:center;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);flex:none;line-height:1.25}
+.qr-img{width:82px;height:82px;display:block;image-rendering:pixelated;border-radius:3px}
+.qr-txt{font-size:11.5px;font-weight:700;color:#12395f;margin-top:5px;letter-spacing:.2px;white-space:nowrap}
+.top-nav{display:flex;gap:2px;margin-top:20px;flex-wrap:wrap}
+.top-nav a{color:#c8dcee;font-size:13px;padding:9px 15px;border-radius:6px 6px 0 0;font-weight:500}
+.top-nav a:hover{background:rgba(255,255,255,.1);color:#fff;text-decoration:none}
+.top-nav a.on{background:var(--bg);color:var(--brand);font-weight:700}
+
+/* ===== Base data strip ===== */
+.basestrip{background:var(--card);border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r) var(--r);
+  margin-top:-1px;padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:14px}
+.bd{border-left:3px solid var(--brand);padding-left:11px}
+.bd.gold{border-color:var(--gold)}.bd.red{border-color:var(--red)}
+.bd .k{font-size:11.5px;color:var(--tx3);letter-spacing:.2px}
+.bd .v{font-size:19px;font-weight:700;color:var(--brand);font-variant-numeric:tabular-nums;line-height:1.35}
+.bd.gold .v{color:var(--gold)}.bd.red .v{color:var(--red)}
+.bd .v small{font-size:11.5px;font-weight:500;color:var(--tx3);margin-left:2px}
+
+/* ===== Layout ===== */
+.main{display:grid;grid-template-columns:minmax(0,1fr) 452px;gap:22px;margin-top:22px;align-items:start}
+.col-l{min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:18px;overflow:hidden}
+.card>h2{font-size:15px;font-weight:700;color:var(--brand);padding:13px 18px;border-bottom:1px solid var(--line2);
+  background:linear-gradient(180deg,#fafbfd,#f5f7fa);display:flex;align-items:center;gap:9px}
+.card>h2 .n{background:var(--brand);color:#fff;width:21px;height:21px;border-radius:5px;font-size:12px;
+  display:inline-flex;align-items:center;justify-content:center;flex:none;font-weight:700}
+.card>h2 .note{margin-left:auto;font-size:11.5px;color:var(--tx3);font-weight:400}
+.cbody{padding:16px 18px}
+
+/* ===== Form ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px 16px}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f label{font-size:12.5px;color:var(--tx2);font-weight:600;display:flex;align-items:center;gap:5px}
+.f label .tip{color:var(--tx3);font-weight:400;font-size:11px;cursor:help;border-bottom:1px dotted var(--tx3)}
+.f input,.f select,.f textarea{border:1px solid #cdd5de;border-radius:7px;padding:8px 10px;font-size:13.5px;
+  font-family:inherit;color:var(--tx);background:#fff;width:100%;transition:.15s}
+.f input:focus,.f select:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 3px rgba(18,57,95,.1)}
+.f input:disabled,.f select:disabled{background:#f2f4f7;color:var(--tx3);cursor:not-allowed}
+.f input[type=number]{font-variant-numeric:tabular-nums}
+.f .unit{position:relative}
+.f .unit input{padding-right:38px}
+.f .unit i{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-style:normal;font-size:12px;color:var(--tx3)}
+.hint{font-size:11.5px;color:var(--tx3);line-height:1.5;margin-top:3px}
+.fset{border:1px solid var(--line2);border-radius:8px;padding:14px;margin-top:14px;background:#fbfcfd}
+.fset>legend{font-size:12.5px;font-weight:700;color:var(--brand);padding:0 7px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.row>.f{flex:1;min-width:150px}
+
+/* radio / check chips */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;width:0;height:0}
+.chip span{display:block;border:1px solid #cdd5de;border-radius:7px;padding:7px 13px;font-size:13px;
+  cursor:pointer;background:#fff;transition:.13s;user-select:none;line-height:1.3}
+.chip input:checked+span{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.chip input:focus-visible+span{box-shadow:0 0 0 3px rgba(18,57,95,.2)}
+.chip:hover span{border-color:var(--brand)}
+.chip.sm span{padding:5px 10px;font-size:12.5px}
+
+/* segmented level picker */
+.lv{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.lv .chip span{text-align:center;padding:8px 2px;font-size:12.5px}
+.lv .chip input:checked+span{background:var(--brand)}
+.multiple{font-size:12px;color:var(--tx2);margin-top:9px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* dependents */
+.dep{border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:10px;background:#fbfcfd;position:relative}
+.dep .dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.dep .dh b{font-size:12.5px;color:var(--brand)}
+.xbtn{border:0;background:#fde8ea;color:var(--red);width:22px;height:22px;border-radius:5px;cursor:pointer;
+  font-size:14px;line-height:1;display:inline-flex;align-items:center;justify-content:center;font-family:inherit}
+.xbtn:hover{background:var(--red);color:#fff}
+.addbtn{border:1px dashed #b9c4cf;background:#fff;color:var(--brand);padding:8px 14px;border-radius:7px;
+  cursor:pointer;font-size:12.5px;font-weight:600;font-family:inherit}
+.addbtn:hover{border-color:var(--brand);background:var(--brand-l)}
+
+/* ===== Result panel ===== */
+.col-r{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow-y:auto;overflow-x:hidden;
+  padding-right:4px;scrollbar-width:thin}
+.col-r::-webkit-scrollbar{width:7px}
+.col-r::-webkit-scrollbar-thumb{background:#c3ccd6;border-radius:4px}
+.col-r::-webkit-scrollbar-track{background:transparent}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:16px;overflow:hidden}
+.panel>.hd{background:linear-gradient(135deg,var(--brand-d),var(--brand));color:#fff;padding:13px 18px;font-size:14px;font-weight:700}
+.total{padding:20px 18px 18px;text-align:center;border-bottom:1px dashed var(--line)}
+.total .lb{font-size:12px;color:var(--tx3);letter-spacing:1px}
+.total .amt{font-size:34px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums;letter-spacing:-.5px;line-height:1.25}
+.total .amt small{font-size:16px;font-weight:600;margin-right:2px}
+.total .sub{font-size:12px;color:var(--tx2);margin-top:5px}
+.substats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2)}
+.ss{background:#fff;padding:11px 14px}
+.ss .k{font-size:11.5px;color:var(--tx3)}
+.ss .v{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+.ss .v.g{color:var(--green)}.ss .v.b{color:var(--brand)}.ss .v.o{color:var(--orange)}
+
+/* tables */
+table.tb{width:100%;border-collapse:collapse;font-size:12.8px}
+table.tb th{background:#f5f7fa;color:var(--tx2);font-weight:600;text-align:left;padding:9px 10px;
+  border-bottom:1px solid var(--line);font-size:11.5px;letter-spacing:.3px;position:sticky;top:0}
+table.tb td{padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+table.tb tr:last-child td{border-bottom:0}
+table.tb td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+table.tb tr.cat td{background:#fafbfc;font-weight:700;color:var(--brand);font-size:12px;padding:6px 10px}
+table.tb tr.sub td{color:var(--tx2);font-size:12px}
+table.tb tr.sub td.n{color:var(--tx2);font-weight:600}
+table.tb tr.tot td{background:var(--gold-l);font-weight:800;color:var(--brand);border-top:2px solid var(--gold);border-bottom:0}
+table.tb .fm{color:var(--tx3);font-size:11px;font-family:"SFMono-Regular",Consolas,monospace;display:block;margin-top:2px;line-height:1.45}
+.scroll{overflow-x:auto}
+.tblbox{max-height:none;overflow:visible}
+
+/* tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);padding:0 18px;background:#fafbfd;overflow-x:auto}
+.tabs button{border:0;background:none;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--tx2);
+  padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
+.tabpane{display:none;padding:0}
+.tabpane.on{display:block}
+
+/* notes */
+.note-box{background:var(--gold-l);border:1px solid #f0dfb8;border-left:3px solid var(--gold);
+  border-radius:7px;padding:11px 14px;font-size:12.3px;color:#6b5223;line-height:1.7;margin-top:14px}
+.note-box b{color:#5a431b}
+.note-box.info{background:#eef4fb;border-color:#cfe0f2;border-left-color:var(--brand);color:#2b4763}
+.note-box.info b{color:var(--brand)}
+.note-box.warn{background:#fdf0ee;border-color:#f3d2cd;border-left-color:var(--red);color:#7a2a22}
+.note-box.warn b{color:var(--red)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 22px;font-size:12.5px;color:var(--tx2)}
+.legend div{display:flex;gap:8px;align-items:baseline}
+.legend b{color:var(--tx);font-weight:600;min-width:76px;flex:none}
+footer{margin-top:30px;border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--tx3);line-height:1.85}
+footer h4{font-size:13px;color:var(--tx);margin:14px 0 6px}
+.srclist{columns:2;column-gap:28px}
+.srclist li{margin-bottom:5px;break-inside:avoid}
+.btnrow{display:flex;gap:8px;padding:12px 18px;border-top:1px solid var(--line2);background:#fafbfd;flex-wrap:wrap}
+.btn{border:1px solid var(--brand);background:var(--brand);color:#fff;padding:8px 15px;border-radius:7px;
+  cursor:pointer;font-size:12.5px;font-weight:600;font-family:inherit}
+.btn:hover{background:var(--brand-d)}
+.btn.sec{background:#fff;color:var(--brand)}
+.btn.sec:hover{background:var(--brand-l)}
+.tag{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:4px;background:var(--brand-l);
+  color:var(--brand);font-weight:600;margin-left:6px;vertical-align:middle}
+.tag.gold{background:var(--gold-l);color:var(--gold)}
+.tag.red{background:#fde8ea;color:var(--red)}
+.empty{padding:26px 16px;text-align:center;color:var(--tx3);font-size:12.5px}
+
+@media(max-width:1120px){.main{grid-template-columns:1fr}.col-r{position:static;max-height:none;overflow:visible;padding-right:0}}
+@media(max-width:640px){
+  .lv{grid-template-columns:repeat(5,1fr)}
+  .total .amt{font-size:28px}
+  .wrap{padding:0 12px 40px}
+  .top-in{padding:0 12px}
+  .basestrip{padding:13px}
+  .srclist{columns:1}
+  .qr-img{width:64px;height:64px}
+  .qr-txt{font-size:10.5px}
+  .qr-card{padding:5px 5px 4px}
+}
+@media print{
+  body{background:#fff}
+  header.top{background:#fff!important;color:#000;border-bottom:2px solid #000;padding:8px 0 0}
+  .tt h1{color:#000;font-size:16px}.tt .sub{color:#555}.badge{background:#eee;color:#000;border-color:#999}
+  .seg,.top-nav,.btnrow,.addbtn,.xbtn,.tabs{display:none!important}
+  .qr-card{box-shadow:none;border:1px solid #999;padding:4px}
+  .qr-img{width:62px;height:62px}
+  .qr-txt{font-size:10px;color:#000}
+  .main{grid-template-columns:1fr;gap:0}.col-r{position:static}
+  .card,.panel{box-shadow:none;break-inside:avoid;margin-bottom:10px}
+  .basestrip{border:1px solid #999}
+  .total .amt{color:#000}
+  .tabpane{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div class="tt">
+      <h1>山东省 2026 版 人身损害赔偿计算器 <span class="badge">青岛单列</span></h1>
+      <div class="sub">
+        依据《山东省道路交通事故损害赔偿项目计算标准（试行）》（鲁高法〔2025〕60号，2026年1月1日起施行）、
+        《民法典》侵权编、《人身损害赔偿司法解释（2022年修正）》及2025年度山东省/青岛市官方统计数据编制。
+        山东省内除青岛外16地市统一适用全省标准，青岛按计划单列市独立统计口径单列。
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;align-items:flex-start">
+      <div class="qr-card">
+        <img src="data:image/png;base64,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" alt="微信咨询二维码" class="qr-img">
+        <div class="qr-txt">张律 15712703201</div>
+      </div>
+      <div style="text-align:right">
+        <div class="seg" id="segRegion">
+          <button data-r="sd" class="on">山东省（除青岛）</button>
+          <button data-r="qd">青岛市</button>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn" style="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3)" onclick="window.print()">打印 / 导出 PDF</button>
+          <button class="btn" style="background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3)" id="btnCopy">复制结果</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="top-in" style="padding-top:0">
+    <nav class="top-nav" id="topNav">
+      <a href="#s1" class="on">① 基本信息</a>
+      <a href="#s2">② 医疗与费用</a>
+      <a href="#s3">③ 误工与护理</a>
+      <a href="#s4">④ 伤残/死亡赔偿金</a>
+      <a href="#s5">⑤ 被扶养人</a>
+      <a href="#s6">⑥ 其他与保险</a>
+      <a href="#s7">速查表</a>
+      <a href="#s8">依据与说明</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="basestrip" id="baseStrip"></div>
+
+  <div class="main">
+    <!-- ============ LEFT ============ -->
+    <div class="col-l">
+
+      <!-- 1 基本信息 -->
+      <div class="card" id="s1">
+        <h2><span class="n">1</span>基本案情信息<span class="note">受诉法院所在地：<b id="courtName">山东省（除青岛外16地市）</b></span></h2>
+        <div class="cbody">
+          <div class="grid">
+            <div class="f">
+              <label>伤情类型</label>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="injury" value="dis" checked><span>构成伤残</span></label>
+                <label class="chip"><input type="radio" name="injury" value="death"><span>死亡</span></label>
+                <label class="chip"><input type="radio" name="injury" value="none"><span>未构成伤残</span></label>
+              </div>
+            </div>
+            <div class="f">
+              <label>受害人年龄 <span class="tip" title="影响赔偿年限：60周岁以下20年；60周岁以上每增1岁减1年；75周岁以上按5年">周岁</span></label>
+              <div class="unit"><input type="number" id="vAge" value="45" min="0" max="120" step="1"><i>岁</i></div>
+              <div class="hint" id="ageHint"></div>
+            </div>
+            <div class="f">
+              <label>责任认定（对方/侵权人）</label>
+              <select id="vScen">
+                <option value="ped">机动车 ↔ 行人/非机动车</option>
+                <option value="car">机动车 ↔ 机动车</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fset" id="fsRatio">
+            <legend>赔偿责任比例</legend>
+            <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">
+              <div class="f" id="fSelFault">
+                <label>对方（侵权人）责任认定</label>
+                <select id="vFault">
+                  <option value="100">全责（对方承担 100%）</option>
+                  <option value="85">主责（对方承担 80%–90%，取 85%）</option>
+                  <option value="65">同责（对方承担 60%–70%，取 65%）</option>
+                  <option value="35">次责（对方承担 30%–40%，取 35%）</option>
+                  <option value="5">无责（对方承担 0%–10%，取 5%）</option>
+                </select>
+              </div>
+              <div class="f" id="fOpp" style="display:none">
+                <label>对方（侵权人）责任比例</label>
+                <div class="unit"><input type="number" id="vOppRatio" value="100" min="0" max="100" step="1"><i>%</i></div>
+              </div>
+              <div class="f">
+                <label>受害人最终获赔比例</label>
+                <div class="unit"><input type="number" id="vRatio" value="100" min="0" max="100" step="1"><i>%</i></div>
+                <div class="hint">由上项自动推算，可手动修改</div>
+              </div>
+            </div>
+            <div class="hint" id="ratioHint"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 医疗与费用 -->
+      <div class="card" id="s2">
+        <h2><span class="n">2</span>医疗费用及各项支出</h2>
+        <div class="cbody">
+          <div class="grid">
+            <div class="f">
+              <label>医疗费（已发生）<span class="tip" title="门诊费+住院费+检查费+药费+治疗费，凭医疗机构正规票据据实计算。一审法庭辩论终结前实际发生数额">元</span></label>
+              <div class="unit"><input type="number" id="vMedical" value="0" min="0" step="0.01"><i>元</i></div>
+            </div>
+            <div class="f">
+              <label>后续治疗费 / 康复费 / 整容费</label>
+              <div class="unit"><input type="number" id="vFuture" value="0" min="0" step="0.01"><i>元</i></div>
+              <div class="hint">凭医嘱或鉴定意见确定必然发生的费用</div>
+            </div>
+            <div class="f">
+              <label>住院天数</label>
+              <div class="unit"><input type="number" id="vHospDays" value="0" min="0" step="1"><i>天</i></div>
+            </div>
+            <div class="f">
+              <label>住院伙食补助费标准</label>
+              <div class="unit"><input type="number" id="vMealRate" value="100" min="0" step="1"><i>元/天</i></div>
+              <div class="hint">鲁高法〔2025〕60号：参照国家机关一般工作人员出差伙食补助标准，100元/天</div>
+            </div>
+            <div class="f">
+              <label>营养费日标准</label>
+              <div class="unit"><input type="number" id="vNutriRate" value="30" min="0" step="1"><i>元/天</i></div>
+              <div class="hint">法定区间 20–50 元/天，以医嘱或鉴定意见为准</div>
+            </div>
+            <div class="f">
+              <label>营养期</label>
+              <div class="unit"><input type="number" id="vNutriDays" value="0" min="0" step="1"><i>天</i></div>
+            </div>
+            <div class="f">
+              <label>交通费计算方式</label>
+              <div class="chips">
+                <label class="chip sm"><input type="radio" name="tr" value="ticket" checked><span>凭票据据实计算</span></label>
+                <label class="chip sm"><input type="radio" name="tr" value="30"><span>无票据·酌定30元/天</span></label>
+                <label class="chip sm"><input type="radio" name="tr" value="20"><span>无票据·酌定20元/天</span></label>
+                <label class="chip sm"><input type="radio" name="tr" value="50"><span>无票据·酌定50元/天</span></label>
+              </div>
+              <div class="hint">票据与酌定二选一，避免重复计算。酌定按实际住院天数×单价计算</div>
+            </div>
+            <div class="f" id="fTrafficTicket">
+              <label>交通费票据金额</label>
+              <div class="unit"><input type="number" id="vTraffic" value="0" min="0" step="0.01"><i>元</i></div>
+              <div class="hint">交通费应当以正式票据为凭，凭据应与就医地点、时间、人数、次数相符</div>
+            </div>
+            <div class="f">
+              <label>外地就医住宿费</label>
+              <div class="unit"><input type="number" id="vHotel" value="0" min="0" step="0.01"><i>元</i></div>
+              <div class="hint">据实计算，不超过国家机关一般工作人员出差住宿标准</div>
+            </div>
+            <div class="f">
+              <label>丧葬事宜交通费</label>
+              <div class="unit"><input type="number" id="vFunTraffic" value="0" min="0" step="0.01"><i>元</i></div>
+              <div class="hint" id="funTrafficHint">仅死亡情形适用</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 误工与护理 -->
+      <div class="card" id="s3">
+        <h2><span class="n">3</span>误工费与护理费</h2>
+        <div class="cbody">
+          <div class="fset" style="margin-top:0">
+            <legend>误工费</legend>
+            <div class="grid">
+              <div class="f">
+                <label>收入类型</label>
+                <select id="vWageMode">
+                  <option value="fixed">有固定收入（按实际减少收入）</option>
+                  <option value="avg3">无固定收入，能举证近三年平均收入</option>
+                  <option value="industry">无固定收入，参照同行业上年度职工平均工资</option>
+                  <option value="minwage">无法证明收入状况，参照当地最低工资标准</option>
+                </select>
+              </div>
+              <div class="f" id="fMonthly">
+                <label>月工资 / 月收入</label>
+                <div class="unit"><input type="number" id="vMonthly" value="8000" min="0" step="1"><i>元/月</i></div>
+                <div class="hint" id="wHint"></div>
+              </div>
+              <div class="f" id="fYearly" style="display:none">
+                <label>近三年平均年收入</label>
+                <div class="unit"><input type="number" id="vYearly" value="0" min="0" step="1"><i>元/年</i></div>
+              </div>
+              <div class="f" id="fInd" style="display:none">
+                <label>所属行业</label>
+                <select id="vIndustry"></select>
+                <div class="hint" id="indHint"></div>
+              </div>
+              <div class="f" id="fIndType" style="display:none">
+                <label>工资统计口径</label>
+                <select id="vIndType">
+                  <option value="np">城镇非私营单位</option>
+                  <option value="p">城镇私营单位</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid" style="margin-top:12px">
+              <div class="f">
+                <label>误工天数</label>
+                <div class="unit"><input type="number" id="vLostDays" value="0" min="0" step="1"><i>天</i></div>
+                <div class="hint">根据医疗机构出具的证明确定；因伤致残持续误工的，可计算至定残日前一天</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fset">
+            <legend>护理费</legend>
+            <div class="grid">
+              <div class="f">
+                <label>护理标准来源</label>
+                <select id="vCareMode">
+                  <option value="local">无收入或雇护工：按当地居民服务业上年度平均工资</option>
+                  <option value="income">护理人员有收入：参照误工费规定</option>
+                  <option value="contract">按护理合同约定金额</option>
+                </select>
+                <div class="hint">该口径为「护理费标准」，同时适用于住院护理与出院护理（出院护理按此标准的 80%–100% 计算）</div>
+              </div>
+              <div class="f" id="fCareIncome" style="display:none">
+                <label>护理人员月收入</label>
+                <div class="unit"><input type="number" id="vCareMonthly" value="6000" min="0" step="1"><i>元/月</i></div>
+              </div>
+              <div class="f" id="fCareContract" style="display:none">
+                <label>护理合同日金额</label>
+                <div class="unit"><input type="number" id="vCareContract" value="200" min="0" step="1"><i>元/天</i></div>
+              </div>
+              <div class="f">
+                <label>护理人数</label>
+                <div class="unit"><input type="number" id="vCareNums" value="1" min="1" max="4" step="1"><i>人</i></div>
+                <div class="hint">原则上为1人，医疗机构或鉴定机构有明确意见的可参照确定</div>
+              </div>
+              <div class="f">
+                <label>住院护理天数</label>
+                <div class="unit"><input type="number" id="vCareHosp" value="0" min="0" step="1"><i>天</i></div>
+                <div class="hint">默认为住院天数</div>
+              </div>
+              <div class="f">
+                <label>出院后短期护理天数</label>
+                <div class="unit"><input type="number" id="vCareOut" value="0" min="0" step="1"><i>天</i></div>
+                <div class="hint">出院短期护理＝护理费标准 × 80%~100% × 护理期限 × 护理人数，不乘依赖系数</div>
+              </div>
+              <div class="f">
+                <label>长期护理期限</label>
+                <div class="unit"><input type="number" id="vCareLongY" value="0" min="0" max="20" step="0.5"><i>年</i></div>
+                <div class="hint">因残疾不能恢复生活自理能力的，最长不超过20年；按 365 天/年折算</div>
+              </div>
+              <div class="f">
+                <label>出院护理折减比例</label>
+                <select id="vCareRatio">
+                  <option value="100">100%（按住院护理费标准全额）</option>
+                  <option value="90" selected>90%</option>
+                  <option value="80">80%</option>
+                </select>
+              </div>
+              <div class="f">
+                <label>长期护理依赖系数</label>
+                <select id="vCareDep">
+                  <option value="0">无需长期护理（0%）</option>
+                  <option value="50">部分护理依赖（50%）</option>
+                  <option value="80">大部分护理依赖（80%）</option>
+                  <option value="100">完全护理依赖（100%）</option>
+                </select>
+                <div class="hint">仅作用于长期护理期限部分</div>
+              </div>
+            </div>
+            <div class="note-box info">
+              <b>计算依据（鲁高法〔2025〕60号第四条）</b>：护理费分为住院护理与出院护理。
+              住院护理期间，护理人员有收入的参照误工费的规定计算；护理人员没有收入或者雇佣护工的，
+              按<b>山东省居民服务和其他服务业上一年度年平均工资</b>或者<b>护理合同</b>计算。
+              出院短期护理＝护理费标准 × 80%~100% × 护理期限 × 护理人数；
+              出院长期护理＝护理费标准 × 80%~100% × 护理依赖系数（完全100%、大部分80%、部分50%）× 护理期限 × 护理人数。
+              <br><span style="opacity:.85">要点：出院护理的「护理费标准」沿用上面选定的那一种口径，<b>并非只能按居民服务业平均工资计算</b>——
+              有收入的护理人员可参照误工费，雇佣护工的可用护理合同约定的金额。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 伤残/死亡赔偿金 -->
+      <div class="card" id="s4">
+        <h2><span class="n">4</span>伤残赔偿金 / 死亡赔偿金<span class="note" id="disNote">受诉法院所在地上一年度城镇居民人均可支配收入 × 赔偿年限 × 伤残指数</span></h2>
+        <div class="cbody">
+          <div id="disWrap">
+            <div class="f">
+              <label>伤残等级（可多选，用于多处伤残附加指数）</label>
+              <div class="lv" id="lvPick"></div>
+              <div class="multiple" id="multiNote"></div>
+            </div>
+          </div>
+          <div id="deathWrap" style="display:none">
+            <div class="note-box warn">
+              <b>死亡赔偿金</b> = <span id="deathBaseTxt"></span> × 赔偿年限，自动计算，无须填写。
+            </div>
+          </div>
+          <div id="noneWrap" style="display:none">
+            <div class="note-box info">
+              未构成伤残的，仅计算医疗费、误工费、护理费、交通费、住院伙食补助费、营养费等实际损失项目，
+              不计算伤残赔偿金、死亡赔偿金及被扶养人生活费。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 被扶养人 -->
+      <div class="card" id="s5">
+        <h2><span class="n">5</span>被扶养人生活费<span class="note">计入残疾赔偿金或死亡赔偿金</span></h2>
+        <div class="cbody">
+          <div id="depWrap">
+            <div id="depList"></div>
+            <button class="addbtn" id="btnAddDep">+ 添加被扶养人</button>
+            <div class="hint" style="margin-top:9px">
+              计算规则：<b>上年度城镇居民人均消费支出 × 扶养年限 ÷ 赔偿义务人人数 × 伤残指数</b>；
+              被扶养人有数人的，年赔偿总额累计不超过上年度城镇居民人均消费支出额（系统已逐年校验封顶）。
+            </div>
+            <div class="note-box">
+              <b>关于是否计入合计：应当计入，且只计入一次。</b>
+              <br>依《人身损害赔偿司法解释（2022年修正）》第十六条：<b>被扶养人生活费计入残疾赔偿金或者死亡赔偿金</b>，
+              属于一次性给付的赔偿项目，并非分期支付。因此本计算器将其<b>并入「残疾赔偿金／死亡赔偿金」一行</b>，
+              该行金额已包含被扶养人生活费，并计入合计总额；
+              下方明细行仅作备查展示，<b>不再重复计入合计</b>。
+              <br><span style="opacity:.85">实务提示：被扶养人生活费与残疾赔偿金合并后，
+              如赔偿义务人提供担保，法院可依第二十条裁定以定期金方式给付；未提供担保的通常一次性给付。</span>
+            </div>
+          </div>
+          <div id="depNone" style="display:none">
+            <div class="note-box info">未构成伤残情形，不计算被扶养人生活费。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 其他与保险 -->
+      <div class="card" id="s6">
+        <h2><span class="n">6</span>丧葬费 · 精神损害抚慰金 · 财产损失 · 保险</h2>
+        <div class="cbody">
+          <div id="funWrap">
+            <div class="grid">
+              <div class="f">
+                <label>丧葬费基数口径</label>
+                <select id="vFunBase">
+                  <option value="ind">按死者生前所属行业（分行业城镇非私营单位在岗职工）</option>
+                  <option value="post">按全省/全市城镇非私营单位在岗职工年平均工资</option>
+                  <option value="all">按全省/全市城镇非私营单位就业人员年平均工资</option>
+                </select>
+              </div>
+              <div class="f" id="fFunInd" style="display:none">
+                <label>死者生前所属行业</label>
+                <select id="vFunIndustry"></select>
+              </div>
+            </div>
+            <div class="note-box info" id="funNote"></div>
+          </div>
+
+          <div class="fset">
+            <legend>精神损害抚慰金</legend>
+            <div class="grid">
+              <div class="f">
+                <label>建议金额</label>
+                <div class="unit"><input type="number" id="vSpirit" value="0" min="0" max="100000" step="500"><i>元</i></div>
+                <div class="hint" id="spiritHint"></div>
+              </div>
+              <div class="f">
+                <label>精神损害抚慰金折算方式</label>
+                <select id="vSpiritMode">
+                  <option value="auto">按伤残等级自动建议（可修改）</option>
+                  <option value="manual">手动指定</option>
+                </select>
+                <div class="hint">60号文：单独计算，不得与其他项目累加后按责任比例计算</div>
+              </div>
+            </div>
+            <div class="hint" style="margin-top:8px">
+              建议标准：十级伤残 5000 元起，每上升一级增加 5000 元；一级伤残、死亡最高 100000 元。
+              最终数额由当事人协商或法院根据侵权人过错程度、侵权行为情节、后果及受诉法院所在地平均生活水平酌定；
+              侵权人为法人或其他社会组织的，一般按自然人标准的五至十倍计算。
+            </div>
+          </div>
+
+          <div class="fset">
+            <legend>财产损失与费用</legend>
+            <div class="grid">
+              <div class="f">
+                <label>车辆维修费 / 施救费等财产损失</label>
+                <div class="unit"><input type="number" id="vProp" value="0" min="0" step="0.01"><i>元</i></div>
+              </div>
+              <div class="f">
+                <label>鉴定费</label>
+                <div class="unit"><input type="number" id="vAppraise" value="0" min="0" step="0.01"><i>元</i></div>
+              </div>
+              <div class="f">
+                <label>评估费</label>
+                <div class="unit"><input type="number" id="vAssess" value="0" min="0" step="0.01"><i>元</i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fset">
+            <legend>交强险</legend>
+            <div class="grid">
+              <div class="f">
+                <label>交强险赔付情形</label>
+                <select id="vCompulsory">
+                  <option value="yes">有责（医疗1.8万/死亡伤残18万/财产2000元）</option>
+                  <option value="no">无责（医疗1800元/死亡伤残1.8万/财产100元）</option>
+                </select>
+              </div>
+            </div>
+            <div class="hint" style="margin-top:8px">
+              赔付顺序：交强险分项限额优先赔付 → 商业三者险按事故责任比例赔付 → 不足部分由侵权人、雇主等承担。
+              精神损害抚慰金可在交强险伤残赔偿限额内优先赔偿。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 速查表 -->
+      <div class="card" id="s7">
+        <h2><span class="n">7</span>伤残赔偿金速查表<span class="note" id="tblNote"></span></h2>
+        <div class="cbody">
+          <div class="scroll"><table class="tb" id="quickTbl"></table></div>
+          <div class="note-box info">
+            赔偿年限：60周岁以下按20年；60周岁以上的，年龄每增加一岁减少一年；75周岁以上的，按5年计算。
+            伤残指数：一级100%、二级90%、三级80%、四级70%、五级60%、六级50%、七级40%、八级30%、九级20%、十级10%。
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 依据 -->
+      <div class="card" id="s8">
+        <h2><span class="n">8</span>数据来源与法律依据</h2>
+        <div class="cbody">
+          <div class="legend" id="srcLegend"></div>
+          <div class="note-box warn" style="margin-top:16px">
+            <b>免责声明：</b>本工具依据现行有效的法律、行政法规、司法解释及官方统计数据编制，结果为初步估算，
+            仅供办案参考，不构成正式法律意见。案件责任划分、伤残等级、收入状况、被扶养人情况等任一变量变化，
+            赔偿金额均可能显著差异；个案存在特殊情形的可适当调整。正式主张应以生效法律文书为准。
+          </div>
+          <footer>
+            <h4>主要依据文件</h4>
+            <ul class="srclist">
+              <li>《山东省道路交通事故损害赔偿项目计算标准（试行）》鲁高法〔2025〕60号，2026年1月1日施行</li>
+              <li>《中华人民共和国民法典》第一千一百七十九条、第一千一百八十三条</li>
+              <li>《最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释》（2022年修正）</li>
+              <li>《最高人民法院关于审理道路交通事故损害赔偿案件适用法律若干问题的解释》（2020年修正）</li>
+              <li>《2025年山东省国民经济和社会发展统计公报》（2026年3月发布）</li>
+              <li>《2025年城镇单位就业人员年平均工资情况》（山东省统计局，2026年6月23日发布）</li>
+              <li>《2025年青岛市国民经济和社会发展统计公报》（2026年4月8日发布）</li>
+              <li>《2025年青岛市单位就业人员年平均工资情况》（青岛市统计局，2026年7月3日发布）</li>
+              <li>《青岛统计年鉴·2025》（青岛市统计局）</li>
+              <li>《全国各省、自治区、直辖市最低工资标准情况》（人力资源社会保障部，截至2026年10月1日）</li>
+            </ul>
+            <h4>特别提示</h4>
+            <ul>
+              <li>鲁高法〔2025〕60号适用于2026年1月1日后新受理的道路交通事故损害赔偿案件；此前受理、施行后尚未审结的一、二审案件，以及施行前已终审后申请再审或按审判监督程序决定再审的案件，不适用该标准。</li>
+              <li>该标准涉及医疗费、康复费、误工费、护理费、交通费、住院伙食补助费、外地就医住宿费和伙食费、营养费、残疾赔偿金、残疾辅助器具费、死亡赔偿金、丧葬费、被扶养人生活费、精神损害抚慰金、财产损失、鉴定费、评估费等17个赔偿项目。</li>
+              <li>山东自2019年9月被列入最高人民法院城乡统一试点省份，已全面取消城乡差别，全部按城镇居民标准计算（"同命同价"）。</li>
+              <li>人身损害赔偿诉讼时效为3年，自治疗终结之日或伤残鉴定出具之日起算。</li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ RIGHT ============ -->
+    <div class="col-r">
+      <div class="panel">
+        <div class="hd">赔偿测算结果</div>
+        <div class="total">
+          <div class="lb">按责任比例折算后的赔偿总额</div>
+          <div class="amt"><small>¥</small><span id="grand">0</span></div>
+          <div class="sub" id="grandSub">请在左侧填写案件信息</div>
+        </div>
+        <div class="substats">
+          <div class="ss"><div class="k">未折算损失合计</div><div class="v b" id="sRaw">¥0</div></div>
+          <div class="ss"><div class="k">获赔责任比例</div><div class="v o" id="sRatio">100%</div></div>
+          <div class="ss"><div class="k">交强险可赔付</div><div class="v g" id="sComp">¥0</div></div>
+          <div class="ss"><div class="k">商业三者险/自担</div><div class="v" id="sBiz">¥0</div></div>
+        </div>
+        <div class="tabs" id="resTabs">
+          <button class="on" data-p="p1">赔偿明细</button>
+          <button data-p="p2">交强险拆分</button>
+          <button data-p="p3">项目构成</button>
+        </div>
+        <div class="tabpane on" id="p1"><div class="scroll"><table class="tb" id="resTbl"></table></div></div>
+        <div class="tabpane" id="p2"><div class="scroll"><table class="tb" id="compTbl"></table></div></div>
+        <div class="tabpane" id="p3"><div class="scroll"><table class="tb" id="chartTbl"></table></div></div>
+        <div class="btnrow">
+          <button class="btn" onclick="window.print()">打印 / 存为 PDF</button>
+          <button class="btn sec" id="btnCopy2">复制结果文本</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="hd">计算说明</div>
+        <div style="padding:14px 18px;font-size:12.5px;color:var(--tx2);line-height:1.8">
+          <div id="calcNotes"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== 数据层 ===================== */
+const INDUSTRY_NAMES = ["农、林、牧、渔业","采矿业","制造业","电力、热力、燃气及水生产和供应业","建筑业",
+"批发和零售业","交通运输、仓储和邮政业","住宿和餐饮业","信息传输、软件和信息技术服务业","金融业","房地产业",
+"租赁和商务服务业","科学研究和技术服务业","水利、环境和公共设施管理业","居民服务、修理和其他服务业","教育",
+"卫生和社会工作","文化、体育和娱乐业","公共管理、社会保障和社会组织"];
+
+const DATA = {
+  sd:{
+    key:'sd', region:'山东省（除青岛外16地市）', short:'山东省',
+    disposable:56444, consumption:32561,
+    avgWage:112857, onPost:115463, privateWage:61984,
+    careWage:58886, careWagePost:62235, careWagePriv:48162,
+    minWage:{1:2400,2:2210,3:2020},
+    indNP:[80339,152686,98873,152551,91863,98484,124660,59361,131318,153755,70971,86613,139871,58550,58886,135152,135310,114194,114814],
+    indPOST:[82819,156028,99134,153871,93865,99314,125402,61564,131124,188892,72516,89378,141000,64080,62235,136350,137057,115111,117900],
+    indP:[55663,65434,66041,74450,62896,59696,63385,50292,70132,82361,47517,58034,66279,43811,48162,60169,66748,53266,58203],
+    indSource:'2025年城镇单位就业人员年平均工资情况（山东省统计局，2026年6月23日发布）',
+    careSource:'2025年城镇单位就业人员年平均工资情况（山东省统计局，2026年6月23日发布）',
+    statsSource:'《2025年山东省国民经济和社会发展统计公报》（山东省统计局，2026年3月发布）',
+    wageSource:'《2025年城镇单位就业人员年平均工资情况》（山东省统计局，2026年6月23日发布）',
+    minWageSource:'《全国各省、自治区、直辖市最低工资标准情况》（人力资源社会保障部，截至2026年10月1日）：第一档2400元、第二档2210元、第三档2020元',
+    funIndLabel:'分行业城镇非私营单位在岗职工年平均工资',
+    qdNote:''
+  },
+  qd:{
+    key:'qd', region:'青岛市', short:'青岛市',
+    disposable:71703, consumption:42391,
+    avgWage:134967, onPost:137371, privateWage:69170,
+    careWage:79448, careWagePost:79448, careWagePriv:59067,
+    minWage:{1:2400,2:2210},
+    indNP:[93605,118651,109148,129915,108592,111605,131467,67652,172427,186237,101783,97677,161272,73996,79448,174895,175862,137994,151838],
+    indPOST:[93605,118651,109148,129915,108592,111605,131467,67652,172427,186237,101783,97677,161272,73996,79448,174895,175862,137994,151838],
+    indP:[52201,59123,69005,72942,66578,65637,68731,50374,87147,88710,61009,69547,76714,51168,59067,73098,80722,67903,68273],
+    indSource:'《青岛统计年鉴·2025》2024年分行业门类就业人员年平均工资（青岛市统计局）；2025年度分行业数据待年鉴发布',
+    careSource:'《青岛统计年鉴·2025》居民服务、修理和其他服务业非私营单位年平均工资79448元（2024年度）',
+    statsSource:'《2025年青岛市国民经济和社会发展统计公报》（青岛市统计局，2026年4月8日发布）',
+    wageSource:'《2025年青岛市单位就业人员年平均工资情况》（青岛市统计局，2026年7月3日发布）',
+    minWageSource:'《全国各省、自治区、直辖市最低工资标准情况》（人力资源社会保障部，截至2026年10月1日）：青岛市市南/市北/黄岛/崂山/李沧/城阳/即墨执行2400元，胶州/平度/莱西执行2210元',
+    funIndLabel:'城镇非私营单位就业人员年平均工资',
+    qdNote:'青岛市为计划单列市，按青岛市政府统计部门公布的当地统计数据确定；分行业工资数据取自《青岛统计年鉴·2025》（2024年度），2025年度分行业数据尚待年鉴发布。'
+  }
+};
+
+const LV = [
+  {n:1,co:1.0,t:'一级'},{n:2,co:0.9,t:'二级'},{n:3,co:0.8,t:'三级'},{n:4,co:0.7,t:'四级'},{n:5,co:0.6,t:'五级'},
+  {n:6,co:0.5,t:'六级'},{n:7,co:0.4,t:'七级'},{n:8,co:0.3,t:'八级'},{n:9,co:0.2,t:'九级'},{n:10,co:0.1,t:'十级'}
+];
+
+/* ===================== 状态 ===================== */
+let S = {
+  region:'sd',
+  levels:[10],
+  deps:[],
+  spiritTouched:false
+};
+let depSeq = 0;
+
+/* ===================== 工具 ===================== */
+const $ = id => document.getElementById(id);
+const num = v => { const n = parseFloat(String(v).replace(/,/g,'')); return isFinite(n)?n:0; };
+const fmt = n => { const v = Math.round((n+Number.EPSILON)*100)/100; return v.toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+const fmt0 = n => { const v = Math.round(n); return v.toLocaleString('zh-CN'); };
+const yuan = n => '¥'+fmt(n);
+const pct = n => Math.round(n*1000)/10+'%';
+
+/* 赔偿年限 */
+function yearsOf(age){
+  if(age<60) return 20;
+  if(age<75) return 20-(age-60);
+  return 5;
+}
+/* 伤残指数（含多处伤残附加） */
+function levelIndex(levels){
+  if(!levels.length) return 0;
+  const sorted=[...levels].sort((a,b)=>a-b);
+  const base=LV.find(l=>l.n===sorted[0]).co;
+  if(sorted[0]===1) return 1;
+  let add=0;
+  sorted.slice(1).forEach(n=>{ add += (n<=5)?0.04:0.02; });
+  add=Math.min(add,0.10);
+  return Math.min(base+add,1);
+}
+/* 被扶养人扶养年限 */
+function depYears(type,age){
+  if(type==='minor') return Math.max(0,18-age);
+  if(type==='adult') return 20;
+  if(type==='old'){ if(age<60) return 20; if(age<75) return 20-(age-60); return 5; }
+  return 0;
+}
+
+/* ===================== 初始化界面 ===================== */
+function buildLevelPicker(){
+  const box=$('lvPick'); box.innerHTML='';
+  LV.forEach(l=>{
+    const lab=document.createElement('label'); lab.className='chip';
+    lab.innerHTML=`<input type="checkbox" value="${l.n}"><span>${l.t}</span>`;
+    box.appendChild(lab);
+  });
+  box.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('change',()=>{
+      S.levels=[...box.querySelectorAll('input:checked')].map(i=>+i.value);
+      if(S.levels.length===1) S.spiritTouched=false;
+      render();
+    });
+  });
+}
+function syncLevelPicker(){
+  $('lvPick').querySelectorAll('input').forEach(i=>{
+    i.checked = S.levels.includes(+i.value);
+  });
+}
+function buildIndustrySelects(){
+  ['vIndustry','vFunIndustry'].forEach(id=>{
+    const sel=$(id); const cur=sel.value; sel.innerHTML='';
+    INDUSTRY_NAMES.forEach((n,i)=>{
+      const o=document.createElement('option'); o.value=i; o.textContent=n; sel.appendChild(o);
+    });
+    if(cur!==''&&cur!=null) sel.value=cur;
+  });
+}
+function buildDeps(){
+  const list=$('depList'); list.innerHTML='';
+  S.deps.forEach(d=>{
+    const box=document.createElement('div'); box.className='dep';
+    box.innerHTML=`
+      <div class="dh"><b>被扶养人 ${d.id}</b><button class="xbtn" data-del="${d.id}" title="删除">×</button></div>
+      <div class="grid">
+        <div class="f"><label>身份类型</label>
+          <select data-f="type" data-id="${d.id}">
+            <option value="minor">未成年人（计算至18周岁）</option>
+            <option value="adult">成年人·无劳动能力且无生活来源（20年）</option>
+            <option value="old">老年人（60周岁以上逐年递减）</option>
+          </select>
+        </div>
+        <div class="f"><label>年龄</label><div class="unit">
+          <input type="number" data-f="age" data-id="${d.id}" min="0" max="120" step="1" value="${d.age}"><i>岁</i></div></div>
+        <div class="f"><label>赔偿义务人（扶养）人数</label><div class="unit">
+          <input type="number" data-f="oblig" data-id="${d.id}" min="1" max="10" step="1" value="${d.oblig}"><i>人</i></div></div>
+        <div class="f"><label>扶养年限</label>
+          <div class="unit"><input type="text" id="dy_${d.id}" value="—" disabled><i>年</i></div></div>
+      </div>`;
+    list.appendChild(box);
+    box.querySelector(`select[data-f="type"]`).value=d.type;
+  });
+  list.querySelectorAll('[data-f]').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      const id=+inp.dataset.id, f=inp.dataset.f;
+      const d=S.deps.find(x=>x.id===id); if(!d) return;
+      d[f]= f==='oblig'?Math.max(1,num(inp.value)): (f==='age'?num(inp.value):inp.value);
+      render();
+    });
+  });
+  list.querySelectorAll('[data-del]').forEach(b=>{
+    b.addEventListener('click',()=>{ S.deps=S.deps.filter(x=>x.id!==+b.dataset.del); buildDeps(); render(); });
+  });
+}
+
+/* ===================== 核心计算 ===================== */
+function compute(){
+  const R=DATA[S.region];
+  const age=num($('vAge').value);
+  const years=yearsOf(age);
+  const ratio=num($('vRatio').value)/100;
+  const injury=document.querySelector('input[name="injury"]:checked').value;
+  const hospDays=num($('vHospDays').value);
+  const idx=levelIndex(S.levels);
+
+  const lines=[];   // {cat,name,formula,amt,group,memo}
+  const add=(cat,name,formula,amt,group,memo)=>{ if(Math.abs(amt)>0.0001) lines.push({cat,name,formula,amt,group:group||name,memo:!!memo}); };
+  let depCapped=false;
+
+  /* --- 医疗费用类 --- */
+  const medical=num($('vMedical').value);
+  add('medical','医疗费','凭医疗费发票、清单据实计算',medical,'医疗费用');
+  const future=num($('vFuture').value);
+  add('medical','后续治疗费 / 康复费 / 整容费','凭医嘱或鉴定意见确定必然发生数额',future,'医疗费用');
+  const meal=num($('vMealRate').value)*hospDays;
+  add('medical','住院伙食补助费',`${num($('vMealRate').value)}元/天 × ${hospDays}天`,meal,'医疗费用');
+  const nutri=num($('vNutriRate').value)*num($('vNutriDays').value);
+  add('medical','营养费',`${num($('vNutriRate').value)}元/天 × ${num($('vNutriDays').value)}天`,nutri,'医疗费用');
+
+  /* --- 误工费 --- */
+  const mode=$('vWageMode').value;
+  const lostDays=num($('vLostDays').value);
+  let wageDay=0, wageFormula='', wageBase=0, wageBaseTxt='';
+  if(mode==='fixed'){
+    wageBase=num($('vMonthly').value)*12; wageBaseTxt=`月收入${fmt0(num($('vMonthly').value))}元×12`;
+    wageDay=wageBase/365; wageFormula=`${wageBaseTxt} ÷ 365 × ${lostDays}天`;
+  }else if(mode==='avg3'){
+    wageBase=num($('vYearly').value); wageBaseTxt=`近三年平均年收入${fmt0(wageBase)}元`;
+    wageDay=wageBase/365; wageFormula=`${wageBaseTxt} ÷ 365 × ${lostDays}天`;
+  }else if(mode==='industry'){
+    const i=+$('vIndustry').value; const t=$('vIndType').value;
+    wageBase = t==='np'? R.indNP[i] : R.indP[i];
+    wageBaseTxt=`${INDUSTRY_NAMES[i]}${t==='np'?'（城镇非私营单位）':'（城镇私营单位）'}年平均工资${fmt0(wageBase)}元`;
+    wageDay=wageBase/365; wageFormula=`${wageBaseTxt} ÷ 365 × ${lostDays}天`;
+  }else{
+    const mw=R.minWage[S.region==='qd'?1:1]||2400;
+    wageBase=mw*12; wageBaseTxt=`当地上一年度最低工资标准${mw}元/月`;
+    wageDay=mw/21.75; wageFormula=`${mw}元/月 ÷ 21.75天 × ${lostDays}天`;
+  }
+  add('dis','误工费',wageFormula,wageDay*lostDays,'伤残死亡');
+
+  /* --- 护理费 --- */
+  const careMode=$('vCareMode').value;
+  const careNums=num($('vCareNums').value);
+  const careHosp=num($('vCareHosp').value);
+  const careOut=num($('vCareOut').value);          // 出院后短期护理天数
+  const careLongD=Math.round(num($('vCareLongY').value)*365); // 长期护理天数
+  const careRatio=num($('vCareRatio').value)/100;
+  const careDep=num($('vCareDep').value)/100;
+  let careDayRate=0, careDayTxt='';
+  if(careMode==='local'){ careDayRate=R.careWage/365; careDayTxt=`当地居民服务业年平均工资${fmt0(R.careWage)}元 ÷ 365`; }
+  else if(careMode==='income'){ careDayRate=num($('vCareMonthly').value)*12/365; careDayTxt=`护理人员月收入${fmt0(num($('vCareMonthly').value))}元×12 ÷ 365`; }
+  else { careDayRate=num($('vCareContract').value); careDayTxt=`护理合同约定${num($('vCareContract').value)}元/天`; }
+  // 住院护理 + 出院短期护理(80%~100%) + 长期护理(×依赖系数)
+  const careTotal=(careDayRate*careHosp + careDayRate*careRatio*careOut + careDayRate*careRatio*careDep*careLongD)*careNums;
+  const careParts=[
+    `住院护理 ${careDayRate.toFixed(2)}×${careHosp}天`,
+    `出院短期护理 ${careDayRate.toFixed(2)}×${pct(careRatio)}×${careOut}天`,
+    `长期护理 ${careDayRate.toFixed(2)}×${pct(careRatio)}×${pct(careDep)}×${careLongD}天`
+  ].filter((_,i)=>[careHosp,careOut,careLongD][i]>0).join(' ＋ ');
+  add('dis','护理费',`(${careDayTxt}) × [${careParts||'无'}] × ${careNums}人`,careTotal,'伤残死亡');
+
+  /* --- 交通费 / 住宿费（票据与酌定互斥，避免重复计算） --- */
+  const trMode=document.querySelector('input[name="tr"]:checked').value;
+  let traffic=0, trFormula='';
+  if(trMode==='ticket'){
+    traffic=num($('vTraffic').value);
+    trFormula='凭交通费正式票据据实计算';
+  }else{
+    const rate=num(trMode);
+    traffic=rate*hospDays;
+    trFormula=`无票据，法院酌定 ${rate}元/天 × 住院${hospDays}天`;
+  }
+  add('dis','交通费',trFormula,traffic,'伤残死亡');
+  const hotel=num($('vHotel').value);
+  add('dis','外地就医住宿费','凭住宿发票据实计算，不超过出差住宿标准',hotel,'伤残死亡');
+
+  /* --- 伤残 / 死亡赔偿金 --- */
+  let disAmt=0, disFormula='', depTotal=0;
+  if(injury==='dis'){
+    disAmt=R.disposable*years*idx;
+    disFormula=`${fmt0(R.disposable)}元/年 × ${years}年 × ${pct(idx)}`;
+    add('dis','残疾赔偿金',disFormula,disAmt,'伤残死亡');
+  }else if(injury==='death'){
+    disAmt=R.disposable*years;
+    disFormula=`${fmt0(R.disposable)}元/年 × ${years}年`;
+    add('dis','死亡赔偿金',disFormula,disAmt,'伤残死亡');
+  }
+
+  /* --- 被扶养人生活费（逐年封顶） --- */
+  const depRows=[];
+  if(injury!=='none'&&S.deps.length){
+    const coeff = (injury==='death')?1:idx;
+    const base=R.consumption;
+    const deps=S.deps.map(d=>({...d,y:depYears(d.type,d.age)}));
+    const maxY=Math.max(...deps.map(d=>d.y),0);
+    const acc=deps.map(()=>0);
+    let capped=false;
+    for(let y=1;y<=maxY;y++){
+      const act=deps.map((d,i)=>({d,i})).filter(o=>o.d.y>=y);
+      if(!act.length) continue;
+      const cap=base;                       // 年赔偿总额上限 = 上年度城镇居民人均消费支出
+      const claims=act.map(o=>base*coeff/Math.max(1,o.d.oblig));
+      const sum=claims.reduce((a,b)=>a+b,0);
+      const scale=sum>cap?cap/sum:1;
+      if(scale<1) capped=true;
+      act.forEach((o,k)=>{ acc[o.i]+=claims[k]*scale; });
+    }
+    acc.forEach((v,i)=>{
+      const d=deps[i];
+      depRows.push({id:d.id, y:d.y, amt:v,
+        f:`${fmt0(base)}元 × ${d.y}年 ÷ ${d.oblig}人 × ${pct(coeff)}`});
+    });
+    depTotal=acc.reduce((a,b)=>a+b,0);
+    /* 被扶养人生活费计入残疾赔偿金或死亡赔偿金（60号文第十三项第3款），故单列备查、不重复计入总额 */
+    depRows.forEach(r=>add('dis',`被扶养人${r.id} 生活费`,r.f,r.amt,'被扶养人明细',true));
+    if(depTotal>0){
+      const merged = injury==='death'?'死亡赔偿金':'残疾赔偿金';
+      const mg=lines.find(l=>l.name===merged);
+      if(mg){ mg.formula += ` ＋ 被扶养人生活费 ${fmt(depTotal)}元`; mg.amt += depTotal; }
+    }
+    if(capped) depCapped=true;
+  }
+
+  /* --- 丧葬费 --- */
+  if(injury==='death'){
+    const fb=$('vFunBase').value;
+    let baseR=0, txt='';
+    if(fb==='ind'){ const i=+$('vFunIndustry').value; baseR=R.indPOST[i]; txt=`死者生前行业（${INDUSTRY_NAMES[i]}）${R.funIndLabel}${fmt0(baseR)}元`; }
+    else if(fb==='post'){ baseR=R.onPost; txt=`${R.short}城镇非私营单位在岗职工年平均工资${fmt0(baseR)}元`; }
+    else { baseR=R.avgWage; txt=`${R.short}城镇非私营单位就业人员年平均工资${fmt0(baseR)}元`; }
+    const fun=baseR/12*6;
+    add('dis','丧葬费',`(${txt}) ÷ 12 × 6个月 = ${fmt(fun)}元`,fun,'伤残死亡');
+    const ft=num($('vFunTraffic').value);
+    add('dis','丧葬事宜交通费','凭票据据实计算',ft,'伤残死亡');
+  }
+
+  /* --- 精神损害抚慰金 --- */
+  let spirit=0;
+  if($('vSpiritMode').value==='auto' && !S.spiritTouched){
+    if(injury==='death') spirit=100000;
+    else if(injury==='dis'){ const top=Math.min(...S.levels); spirit=5000*(11-top); }
+    else spirit=3000;
+  }else spirit=num($('vSpirit').value);
+  add('dis','精神损害抚慰金','由当事人协商或法院根据损害后果酌定（单独计算，不按责任比例折算）',spirit,'精神抚慰金');
+
+  /* --- 财产损失与费用 --- */
+  const prop=num($('vProp').value);
+  add('prop','财产损失（车辆维修费/施救费等）','据实计算，需维修发票、清单、支付凭证',prop,'财产损失');
+  const ap=num($('vAppraise').value);
+  add('fee','鉴定费','凭鉴定费发票据实计算',ap,'鉴定与评估费');
+  const as=num($('vAssess').value);
+  add('fee','评估费','凭评估费发票据实计算',as,'鉴定与评估费');
+
+  /* --- 汇总 --- */
+  const catSum={medical:0,dis:0,prop:0,fee:0};
+  lines.forEach(l=>{ if(!l.memo) catSum[l.cat]+=l.amt; });
+  const spiritLine=lines.find(l=>l.name==='精神损害抚慰金');
+  const spiritAmt=spiritLine?spiritLine.amt:0;
+
+  // 按责任比例折算：除精神损害抚慰金外均按比例；memo 明细行不计入总额
+  let rawTotal=0, scaledTotal=0;
+  lines.forEach(l=>{
+    if(l.memo) return;
+    rawTotal+=l.amt;
+    l.scaled = (l.name==='精神损害抚慰金')? l.amt : l.amt*ratio;
+    scaledTotal+=l.scaled;
+  });
+
+  /* --- 交强险拆分 --- */
+  const comp=$('vCompulsory').value==='yes';
+  const LIM = comp?{med:18000,dis:180000,prop:2000}:{med:1800,dis:18000,prop:100};
+  const medRaw=catSum.medical, disRaw=catSum.dis, propRaw=catSum.prop;
+  const disNoSpirit = disRaw - spiritAmt;
+  // 交强险内：医疗类按限额；死亡伤残类含精神抚慰金全额优先
+  const medComp=Math.min(medRaw, LIM.med);
+  const disComp=Math.min(disRaw, LIM.dis);
+  const propComp=Math.min(propRaw, LIM.prop);
+  const compTotal=medComp+disComp+propComp;
+  // 交强险外余额（按责任比例折算口径）
+  const restMed=Math.max(0,medRaw-LIM.med)*ratio;
+  const restDis=Math.max(0,disRaw-LIM.dis)*ratio;
+  const restProp=Math.max(0,propRaw-LIM.prop)*ratio;
+  const restTotal=restMed+restDis+restProp;
+  const biz=restTotal; // 商业三者险按责任比例赔付
+
+  return {R,age,years,ratio,injury,idx,lines,catSum,rawTotal,scaledTotal,spiritAmt,
+    comp,LIM,medRaw,disRaw,propRaw,medComp,disComp,propComp,compTotal,restTotal,biz,
+    depTotal,depRows,depCapped,wageBase,wageBaseTxt,wageDay,careDayTxt,careDayRate,industry:INDUSTRY_NAMES[+$('vIndustry').value]};
+}
+
+/* ===================== 渲染 ===================== */
+function renderBaseStrip(){
+  const R=DATA[S.region];
+  const items=[
+    {k:'城镇居民人均可支配收入',v:R.disposable,u:'元/年',cls:'',src:R.statsSource},
+    {k:'城镇居民人均消费支出',v:R.consumption,u:'元/年',cls:'',src:R.statsSource},
+    {k:'城镇非私营单位就业人员年平均工资',v:R.avgWage,u:'元/年',cls:'gold',src:R.wageSource},
+    {k:'城镇非私营单位在岗职工年平均工资',v:R.onPost,u:'元/年',cls:'gold',src:R.wageSource},
+    {k:'居民服务和其他服务业年平均工资',v:R.careWage,u:'元/年',cls:'',src:R.careSource},
+    {k:'最低工资标准（月）',v:R.minWage[1],u:'元/月',cls:'',src:R.minWageSource},
+    {k:'死亡赔偿金（60周岁以下）',v:R.disposable*20,u:'元',cls:'red',src:'城镇居民人均可支配收入×20年'}
+  ];
+  $('baseStrip').innerHTML=items.map(i=>`<div class="bd ${i.cls}"><div class="k">${i.k}</div>
+    <div class="v">${fmt0(i.v)}<small>${i.u}</small></div></div>`).join('');
+  $('courtName').textContent=R.region;
+  $('tblNote').textContent=R.short+' · '+(S.region==='qd'?'青岛市统计局口径':'山东省统计局口径');
+  $('srcLegend').innerHTML=`
+    <div><b>收入/消费</b><span>${R.statsSource}</span></div>
+    <div><b>工资数据</b><span>${R.wageSource}</span></div>
+    <div><b>分行业工资</b><span>${R.indSource}</span></div>
+    <div><b>护理费基数</b><span>${R.careSource}</span></div>
+    <div><b>最低工资</b><span>${R.minWageSource}</span></div>
+    <div><b>赔偿规则</b><span>鲁高法〔2025〕60号（2026年1月1日施行）</span></div>`;
+  if(R.qdNote) $('srcLegend').insertAdjacentHTML('beforeend',`<div><b>青岛提示</b><span>${R.qdNote}</span></div>`);
+}
+
+function renderLvNote(){
+  const S2=S.levels;
+  if(!S2.length){ $('multiNote').innerHTML='<span style="color:var(--red)">请至少选择一处伤残等级</span>'; return; }
+  const idx=levelIndex(S2);
+  const base=LV.find(l=>l.n===Math.min(...S2));
+  let add=0; S2.filter(n=>n!==Math.min(...S2)).forEach(n=>{ add+=(n<=5)?0.04:0.02; });
+  add=Math.min(add,0.10);
+  const tot=Math.min(idx,1);
+  let msg=`最高伤残等级：<b>${base.t}</b>（${pct(base.co)}）`;
+  if(S2.length>1){
+    msg+=`；附加伤残 ${S2.length-1} 处，二级至五级每处+4%、六级至十级每处+2%，附加指数合计 <b>${pct(add)}</b>（不超过10%）`;
+    msg+=`；总伤残赔偿指数 <b style="color:var(--red)">${pct(tot)}</b>`;
+  }else{
+    msg+=`；伤残赔偿指数 <b style="color:var(--red)">${pct(idx)}</b>`;
+  }
+  $('multiNote').innerHTML=msg;
+}
+
+function renderSpiritHint(d){
+  const R=d.R;
+  let txt='';
+  if(d.injury==='death') txt='死亡情形参考上限10万元，最终由法院酌定';
+  else if(d.injury==='dis'){ const top=Math.min(...S.levels); txt=`${LV.find(l=>l.n===top).t}伤残参考起点${5000*(11-top)}元，一级/死亡上限10万元`; }
+  else txt='未构成伤残，一般精神损害1000–5000元';
+  $('spiritHint').textContent=txt;
+  if($('vSpiritMode').value==='auto' && !S.spiritTouched) $('vSpirit').value=d.spiritAmt;
+}
+
+function renderQuickTable(){
+  const R=DATA[S.region];
+  const ages=[30,45,55,60,65,70,74,75];
+  let h=`<thead><tr><th>伤残等级</th><th>指数</th>`+
+    ages.map(a=>`<th style="text-align:right">${a}岁</th>`).join('')+`</tr></thead><tbody>`;
+  LV.forEach(l=>{
+    h+=`<tr><td>${l.t}</td><td>${pct(l.co)}</td>`+
+      ages.map(a=>{ const y=yearsOf(a); return `<td class="n">${fmt0(R.disposable*y*l.co)}</td>`; }).join('')+
+      `</tr>`;
+  });
+  h+=`<tr class="cat"><td>死亡赔偿金</td><td>100%</td>`+
+    ages.map(a=>`<td class="n">${fmt0(R.disposable*yearsOf(a))}</td>`).join('')+`</tr>`;
+  h+='</tbody>';
+  $('quickTbl').innerHTML=h;
+}
+
+function renderFunNote(d){
+  const R=d.R;
+  const fb=$('vFunBase').value;
+  let base,txt;
+  if(fb==='ind'){ const i=+$('vFunIndustry').value; base=R.indPOST[i]; txt=`死者生前行业（${INDUSTRY_NAMES[i]}）${R.funIndLabel} ${fmt0(base)} 元`; }
+  else if(fb==='post'){ base=R.onPost; txt=`${R.short}城镇非私营单位在岗职工年平均工资 ${fmt0(base)} 元`; }
+  else { base=R.avgWage; txt=`${R.short}城镇非私营单位就业人员年平均工资 ${fmt0(base)} 元`; }
+  const fun=base/12*6;
+  let extra='';
+  if(S.region==='qd' && fb==='post') extra='<br><span style="display:block;margin-top:6px;opacity:.85">提示：青岛此前流传的 66186 元系按 2024 年在岗职工工资 132372 元计算；青岛市统计局已于 2026 年 7 月 3 日发布 2025 年度数据（在岗职工 137371 元），本工具按最新已发布数据计算。</span>';
+  else if(S.region==='qd' && fb==='ind') extra='<br><span style="display:block;margin-top:6px;opacity:.85">提示：青岛市分行业数据取自《青岛统计年鉴·2025》（2024 年度），2025 年度分行业数据待年鉴发布。</span>';
+  $('funNote').innerHTML=`<b>丧葬费</b> = (${txt}) ÷ 12 × 6个月 = <b style="color:var(--red)">${fmt(fun)} 元</b>。
+    依据60号文第十二项：上一年度职工月平均工资按照分行业城镇非私营单位在岗职工年平均工资÷12计算。${extra}`;
+}
+
+function render(){
+  const d=compute();
+  /* 顶部结果 */
+  $('grand').textContent=fmt(d.scaledTotal);
+  $('grandSub').textContent=`${d.R.region} · ${d.injury==='death'?'死亡':(d.injury==='dis'?'构成伤残':'未构成伤残')} · 责任比例 ${pct(d.ratio)}`;
+  $('sRaw').textContent='¥'+fmt0(d.rawTotal);
+  $('sRatio').textContent=pct(d.ratio);
+  $('sComp').textContent='¥'+fmt0(d.compTotal);
+  $('sBiz').textContent='¥'+fmt0(d.biz);
+
+  /* 明细表 */
+  const order=['医疗费用','伤残死亡','财产损失','鉴定与评估费','精神抚慰金','被扶养人明细'];
+  let h='<thead><tr><th style="width:40%">赔偿项目</th><th style="text-align:right">金额（元）</th></tr></thead><tbody>';
+  order.forEach(g=>{
+    const items=d.lines.filter(l=>l.group===g);
+    if(!items.length) return;
+    h+=`<tr class="cat"><td colspan="2">${g}</td></tr>`;
+    let sub=0;
+    items.forEach(l=>{
+      if(l.memo){
+        h+=`<tr class="sub"><td style="padding-left:18px">↳ ${l.name}<span class="fm">${l.formula}　（已计入${d.injury==='death'?'死亡赔偿金':'残疾赔偿金'}，不重复计算）</span></td><td class="n">${fmt(l.amt)}</td></tr>`;
+        return;
+      }
+      h+=`<tr><td>${l.name}<span class="fm">${l.formula}</span></td><td class="n">${fmt(l.scaled)}</td></tr>`;
+      sub+=l.scaled;
+    });
+    if(g!=='被扶养人明细') h+=`<tr class="sub"><td>${g}小计</td><td class="n">${fmt(sub)}</td></tr>`;
+  });
+  h+=`<tr class="tot"><td>合计（按责任比例折算）</td><td class="n">${fmt(d.scaledTotal)}</td></tr>`;
+  if(d.spiritAmt>0) h+=`<tr class="sub"><td>其中：精神损害抚慰金（不按比例折算）</td><td class="n">${fmt(d.spiritAmt)}</td></tr>`;
+  h+='</tbody>';
+  $('resTbl').innerHTML=h;
+
+  /* 交强险拆分 */
+  let c='<thead><tr><th>项目</th><th style="text-align:right">损失额</th><th style="text-align:right">交强险赔付</th><th style="text-align:right">余额</th></tr></thead><tbody>';
+  const rows=[
+    ['医疗费用（医疗费/后续治疗费/伙食补助/营养费）',d.medRaw,d.LIM.med,'med'],
+    ['死亡伤残（丧葬费/死亡或伤残赔偿金/误工费/护理费等）',d.disRaw,d.LIM.dis,'dis'],
+    ['财产损失（车辆维修费/施救费等）',d.propRaw,d.LIM.prop,'prop']
+  ];
+  rows.forEach(r=>{
+    const paid=r[3]==='med'?d.medComp:(r[3]==='dis'?d.disComp:d.propComp);
+    const rest=Math.max(0,r[1]-r[2])*d.ratio;
+    c+=`<tr><td>${r[0]}<span class="fm">交强险${d.comp?'有责':'无责'}限额 ${fmt0(r[2])} 元</span></td>
+      <td class="n">${fmt(r[1])}</td><td class="n" style="color:var(--green)">${fmt(paid)}</td><td class="n">${fmt(rest)}</td></tr>`;
+  });
+  c+=`<tr class="tot"><td>交强险赔付合计</td><td class="n">—</td><td class="n">${fmt(d.compTotal)}</td><td class="n">—</td></tr>`;
+  c+=`<tr class="sub"><td>商业三者险（按责任比例 ${pct(d.ratio)} 赔付交强险外余额）</td><td class="n">—</td><td class="n">—</td><td class="n">${fmt(d.biz)}</td></tr>`;
+  c+=`<tr class="sub"><td>不足部分由侵权人/雇主承担</td><td class="n">—</td><td class="n">—</td><td class="n">${fmt(d.restTotal-d.biz)}</td></tr>`;
+  if(d.catSum.fee>0) c+=`<tr class="sub"><td>鉴定费 / 评估费（不占用交强险限额）</td><td class="n">${fmt(d.catSum.fee)}</td><td class="n">—</td><td class="n">${fmt(d.catSum.fee*0+(d.catSum.fee))}</td></tr>`;
+  c+='</tbody>';
+  $('compTbl').innerHTML=c;
+
+  /* 项目构成 */
+  let t='<thead><tr><th>赔偿项目</th><th style="text-align:right">金额</th><th style="text-align:right">占比</th></tr></thead><tbody>';
+  const totals=[...d.lines].filter(l=>!l.memo&&l.scaled>0).sort((a,b)=>b.scaled-a.scaled);
+  totals.forEach(l=>{
+    const p=d.scaledTotal?l.scaled/d.scaledTotal*100:0;
+    t+=`<tr><td>${l.name}</td><td class="n">${fmt(l.scaled)}</td><td class="n">${p.toFixed(1)}%</td></tr>`;
+  });
+  t+='</tbody>';
+  $('chartTbl').innerHTML=t;
+
+  /* 说明 */
+  const notes=[];
+  notes.push(`<b>赔偿年限</b>：受害人${d.age}周岁 → <b>${d.years}年</b>（60周岁以下20年；60周岁以上每增1岁减1年；75周岁以上按5年）。`);
+  notes.push(`<b>赔偿基数</b>：${d.R.region}，城镇居民人均可支配收入 <b>${fmt0(d.R.disposable)}元/年</b>，城镇居民人均消费支出 <b>${fmt0(d.R.consumption)}元/年</b>。`);
+  if(d.injury==='dis') notes.push(`<b>伤残指数</b>：${pct(d.idx)}；残疾赔偿金 ${fmt0(d.R.disposable*d.years*d.idx)} 元${d.depTotal>0?` + 被扶养人生活费 ${fmt0(d.depTotal)} 元`:''}。`);
+  if(d.injury==='death') notes.push(`<b>死亡赔偿金</b>：${fmt0(d.R.disposable*d.years)} 元${d.depTotal>0?` + 被扶养人生活费 ${fmt0(d.depTotal)} 元`:''}。`);
+  if(d.depRows.length) notes.push(`<b>被扶养人</b>：共 ${d.depRows.length} 人，合计 ${fmt0(d.depTotal)} 元（已按"年赔偿总额累计不超过上年度城镇居民人均消费支出额"逐年校验封顶）。`);
+  notes.push(`<b>误工费</b>：${d.wageBaseTxt}，日均 ${d.wageDay.toFixed(2)} 元。`);
+  notes.push(`<b>护理费</b>：${d.careDayTxt}，日护理标准 ${d.careDayRate.toFixed(2)} 元。`);
+  notes.push(`<b>责任折算</b>：除精神损害抚慰金单独计算外，其余各项按 ${pct(d.ratio)} 折算；未折算合计 ${fmt0(d.rawTotal)} 元 → 折算后 ${fmt(d.scaledTotal)} 元。`);
+  notes.push(`<b>保险赔付</b>：交强险（${d.comp?'有责':'无责'}）可赔付 ${fmt0(d.compTotal)} 元；交强险外余额 ${fmt0(d.restTotal)} 元由商业三者险按责任比例赔付。`);
+  $('calcNotes').innerHTML=notes.map(n=>'· '+n).join('<br>');
+
+  /* 联动 UI */
+  renderLvNote();
+  renderSpiritHint(d);
+  renderFunNote(d);
+  $('ageHint').textContent=`赔偿年限 ${d.years} 年`;
+  // 被扶养人年限
+  S.deps.forEach(dep=>{
+    const el=$('dy_'+dep.id);
+    if(el) el.value=depYears(dep.type,dep.age);
+  });
+  // 误工模式提示
+  const wm=$('vWageMode').value;
+  $('fMonthly').style.display = (wm==='fixed')?'':'none';
+  $('fYearly').style.display = (wm==='avg3')?'':'none';
+  $('fInd').style.display   = (wm==='industry')?'':'none';
+  $('fIndType').style.display= (wm==='industry')?'':'none';
+  $('wHint').textContent = (wm==='fixed')?'年化后按 年收入 ÷ 365 计算日工资':'如不能举证则改用行业工资或最低工资标准';
+  if(wm==='industry'){
+    const R=DATA[S.region], i=+$('vIndustry').value, t=$('vIndType').value;
+    const v = t==='np'? R.indNP[i] : R.indP[i];
+    $('indHint').textContent=`年平均工资 ${fmt0(v)} 元 → 日均 ${(v/365).toFixed(2)} 元`;
+  }
+  // 护理模式
+  $('fCareIncome').style.display = ($('vCareMode').value==='income')?'':'none';
+  $('fCareContract').style.display = ($('vCareMode').value==='contract')?'':'none';
+  // 交通费：票据与酌定互斥
+  const trSel=document.querySelector('input[name="tr"]:checked').value;
+  $('fTrafficTicket').style.display = (trSel==='ticket')?'':'none';
+  // 伤情显隐
+  $('disWrap').style.display = (d.injury==='dis')?'':'none';
+  $('deathWrap').style.display = (d.injury==='death')?'':'none';
+  $('noneWrap').style.display = (d.injury==='none')?'':'none';
+  $('deathBaseTxt').innerHTML=`<b>${fmt0(DATA[S.region].disposable)}</b> 元/年 × ${d.years} 年`;
+  $('depWrap').style.display = (d.injury==='none')?'none':'';
+  $('depNone').style.display = (d.injury==='none')?'':'none';
+  $('funWrap').style.display = (d.injury==='death')?'':'none';
+  $('funTrafficHint').textContent = (d.injury==='death')?'仅死亡情形适用':'仅死亡情形适用（当前不计算）';
+  $('fFunInd').style.display = ($('vFunBase').value==='ind')?'':'none';
+  $('disNote').textContent = d.injury==='death'
+    ? '受诉法院所在地上一年度城镇居民人均可支配收入 × 赔偿年限'
+    : '受诉法院所在地上一年度城镇居民人均可支配收入 × 赔偿年限 × 伤残指数';
+}
+
+/* ===================== 事件绑定 ===================== */
+function bind(){
+  // 地区切换
+  $('segRegion').querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      $('segRegion').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      S.region=b.dataset.r;
+      S.spiritTouched=false;
+      $('vSpiritMode').value='auto';
+      syncLevelPicker();
+      renderBaseStrip(); renderQuickTable(); render();
+    });
+  });
+  // 顶部导航
+  $('topNav').querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+      $('topNav').querySelectorAll('a').forEach(x=>x.classList.remove('on'));
+      a.classList.add('on');
+    });
+  });
+  // 全部输入
+  document.querySelectorAll('input,select').forEach(el=>{
+    if(el.type==='checkbox'||el.type==='radio') return;
+    el.addEventListener('input',()=>{ if(el.id==='vSpirit') S.spiritTouched=true; render(); });
+    el.addEventListener('change',()=>{
+      if(el.id==='vSpirit') S.spiritTouched=true;
+      if(el.id==='vScen'){ updRatioUI(); }
+      if(el.id==='vFault'){ updRatioUI(); }
+      render();
+    });
+  });
+  document.querySelectorAll('input[name="injury"]').forEach(r=>r.addEventListener('change',render));
+  document.querySelectorAll('input[name="tr"]').forEach(r=>r.addEventListener('change',render));
+  // 责任比例
+  $('vFault').addEventListener('change',updRatioUI);
+  $('vScen').addEventListener('change',()=>{updRatioUI();render();});
+  // 伤情切换 → 精神抚慰金重置
+  document.querySelectorAll('input[name="injury"]').forEach(r=>{
+    r.addEventListener('change',()=>{ S.spiritTouched=false; $('vSpiritMode').value='auto'; render(); });
+  });
+  // 精神抚慰金模式
+  $('vSpiritMode').addEventListener('change',()=>{ S.spiritTouched=false; render(); });
+  // 被扶养人
+  $('btnAddDep').addEventListener('click',()=>{
+    S.deps.push({id:++depSeq,type:'minor',age:10,oblig:1});
+    buildDeps(); render();
+  });
+  // 住院护理默认同步
+  $('vHospDays').addEventListener('input',()=>{
+    const c=$('vCareHosp');
+    if(!c.dataset.touched){ c.value=num($('vHospDays').value); }
+  });
+  $('vCareHosp').addEventListener('input',e=>{ e.target.dataset.touched='1'; });
+  // 结果页签
+  $('resTabs').querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      $('resTabs').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('on'));
+      $(b.dataset.p).classList.add('on');
+    });
+  });
+  // 复制
+  ['btnCopy','btnCopy2'].forEach(id=>$(id).addEventListener('click',copyResult));
+}
+function updRatioUI(){
+  const scen=$('vScen').value;
+  $('fSelFault').style.display = scen==='ped'?'':'none';
+  $('fOpp').style.display = scen==='car'?'':'none';
+  if(scen==='ped'){
+    const fp=num($('vFault').value);
+    $('vRatio').value=fp;
+    $('ratioHint').innerHTML=`公安机关认定对方${$('vFault').selectedOptions[0].text.split('（')[0]} → 对方责任 <b>${fp}%</b>，受害人获赔 <b>${fp}%</b>。<br>依据60号文：机动车与行人、非机动车之间，全责100%、主责80%–90%、同责60%–70%、次责30%–40%、无责0%–10%（本项即对方应承担的赔偿责任比例）。`;
+  }else{
+    const op=num($('vOppRatio').value);
+    $('vRatio').value=op;
+    $('ratioHint').innerHTML=`机动车与机动车之间：全责:无责=100%:0%，主责:次责=70%:30%，同责:同责=50%:50%。对方责任 <b>${op}%</b> → 受害人获赔 <b>${op}%</b>。`;
+  }
+}
+function copyResult(){
+  const d=compute();
+  let s=`【${d.R.region} 人身损害赔偿测算】\n`;
+  s+=`伤情：${d.injury==='death'?'死亡':(d.injury==='dis'?'伤残'+S.levels.map(n=>LV.find(l=>l.n===n).t).join('+'):'未构成伤残')}；年龄 ${d.age}岁；赔偿年限 ${d.years}年；责任比例 ${pct(d.ratio)}\n\n`;
+  let last='';
+  d.lines.forEach(l=>{
+    if(l.group!==last){ s+=`【${l.group}】\n`; last=l.group; }
+    s+=`  ${l.name}：${fmt(l.scaled)} 元\n`;
+  });
+  s+=`\n未折算合计：${fmt(d.rawTotal)} 元\n按责任比例折算后合计：${fmt(d.scaledTotal)} 元\n`;
+  s+=`交强险赔付：${fmt(d.compTotal)} 元；交强险外余额：${fmt(d.restTotal)} 元\n`;
+  s+=`（数据来源：${d.R.statsSource}；鲁高法〔2025〕60号）`;
+  navigator.clipboard.writeText(s).then(()=>alert('结果已复制到剪贴板'),()=>{
+    const ta=document.createElement('textarea'); ta.value=s; document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');alert('结果已复制到剪贴板');}catch(e){alert('复制失败，请手动选择文字');}
+    document.body.removeChild(ta);
+  });
+}
+
+/* ===================== 启动 ===================== */
+buildLevelPicker();
+buildIndustrySelects();
+buildDeps();
+bind();
+updRatioUI();
+renderBaseStrip();
+renderQuickTable();
+render();
+</script>
+</body>
+</html>
